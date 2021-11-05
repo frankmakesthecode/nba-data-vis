@@ -1,26 +1,31 @@
-import React from 'react'
-import {connect} from 'react-redux'
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { fetchPerGame } from '../store/perGame';
 
-/**
- * COMPONENT
- */
-export const Home = props => {
-  const {username} = props
+export const Home = (props) => {
+  const { perGame, loadPerGame } = props;
+
+  useEffect(() => {
+    loadPerGame();
+  }, []);
 
   return (
     <div>
-      <h3>Welcome, {username}</h3>
+      <h3>Welcome to the Home Page</h3>
     </div>
-  )
-}
+  );
+};
 
-/**
- * CONTAINER
- */
-const mapState = state => {
+const mapState = (state) => {
   return {
-    username: state.auth.username
-  }
-}
+    perGame: state.perGame,
+  };
+};
 
-export default connect(mapState)(Home)
+const mapDispatch = (dispatch) => {
+  return {
+    loadPerGame: () => dispatch(fetchPerGame()),
+  };
+};
+
+export default connect(mapState, mapDispatch)(Home);
