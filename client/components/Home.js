@@ -57,16 +57,9 @@ export const Home = (props) => {
       <div style={{ maxWidth: '100%' }}>
         <MaterialTable
           icons={tableIcons}
-          actions={[
-            {
-              icon: tableIcons.DetailPanel,
-              tooltip: 'Details',
-              onClick: (event, rowData) => {
-                // do something
-              },
-            },
-          ]}
+          onRowClick={(event, rowData) => console.log(rowData)}
           columns={[
+            { title: 'ID', field: 'id', hidden: true },
             { title: 'Name', field: 'name', grouping: false },
             { title: 'POS', field: 'position' },
             { title: 'Team', field: 'team' },
@@ -122,26 +115,26 @@ export const Home = (props) => {
           ]}
           data={perGame.map((player) => {
             return {
+              id: player.id,
               name: player.name,
               position: player.position,
               team: player.team,
-              minutes: player.minutes,
-              fgPercent: (player.fgPercent * 100).toFixed(2),
-              points: player.points,
-              rebounds: player.totalRebound,
-              assists: player.assists,
-              steals: player.steals,
-              blocks: player.blocks,
-              turnovers: player.turnovers,
+              minutes: (Math.round(player.minutes * 10) / 10).toFixed(1),
+              fgPercent: (player.fgPercent * 100).toFixed(1),
+              points: (Math.round(player.points * 10) / 10).toFixed(1),
+              rebounds: (Math.round(player.totalRebound * 10) / 10).toFixed(1),
+              assists: (Math.round(player.assists * 10) / 10).toFixed(1),
+              steals: (Math.round(player.steals * 10) / 10).toFixed(1),
+              blocks: (Math.round(player.blocks * 10) / 10).toFixed(1),
+              turnovers: (Math.round(player.turnovers * 10) / 10).toFixed(1),
             };
           })}
-          title="Active Players"
-          options={
-            ({
-              grouping: true,
-            },
-            { pageSize: 10 })
-          }
+          options={{
+            pageSize: 10,
+            showTitle: false,
+            grouping: true,
+            searchFieldAlignment: 'left',
+          }}
         />
       </div>
     </div>
